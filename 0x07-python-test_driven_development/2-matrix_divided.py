@@ -1,37 +1,41 @@
 #!/usr/bin/python3
-"""Module for matrix_divided method."""
+"""
+This is the matrix_divided module.
+
+This module supplies one function, matrix_divided().
+"""
 
 
 def matrix_divided(matrix, div):
-    """Divides all elements of matrix by div.
-    Args:
-        matrix: List of lists containing int or float
-        div: number to divide matrix by
-    Returns:
-        list: List of lists representing divided matrix.
-    Raises:
-        TypeError: If matrix is not list of lists containing int or float.
-        TypeError: If sublists are not all same size.
-        TypeError: If div is not int or float.
-        ZeroDivisionError: If div is zero.
     """
-    if not isinstance(div, (int, float)):
-        raise TypeError("div must be a number")
-    if not isinstance(matrix, list) or len(matrix) == 0:
-        raise TypeError("matrix must be a matrix (list of lists) " +
-                        "of integers/floats")
-    for row in matrix:
-        if not isinstance(row, list) or len(row) == 0:
-            raise TypeError("matrix must be a matrix (list of lists) " +
-                            "of integers/floats")
-        if len(row) != len(matrix[0]):
-            raise TypeError("Each row of the matrix must have the same size")
-        for x in row:
-            if not isinstance(x, (int, float)):
-                raise TypeError("matrix must be a matrix (list of lists) " +
-                                "of integers/floats")
-    return [[round(x / div, 2) for x in row] for row in matrix]
+    Return a new matrix where each element has been divided by div.
 
-if __name__ == "__main__":
-    import doctest
-    doctest.testfile("tests/2-matrix_divided.txt")
+    Args:
+        matrix (list): list of lists of integers or floats.
+        div (int, float): the divider, >= 0.
+    """
+    mtrx_type_e = 'matrix must be a matrix (list of lists) of integers/floats'
+    mtrx_len_e = 'Each row of the matrix must have the same size'
+    div_type_e = 'div must be a number'
+    div_zero_e = 'division by zero'
+
+    row_len = 0
+    if type(matrix) is not list:
+        raise TypeError(mtrx_type_e)
+
+    for row in matrix:
+        if type(row) is not list:
+            raise TypeError(mtrx_type_e)
+        for i in row:
+            if type(i) not in [int, float]:
+                raise TypeError(mtrx_type_e)
+        if len(row) is not row_len and row_len is not 0:
+            raise TypeError(mtrx_len_e)
+        row_len = len(row)
+
+    if type(div) not in [int, float]:
+        raise TypeError(div_type_e)
+    if div is 0:
+        raise ZeroDivisionError(div_zero_e)
+
+    return [[round(nb / div, 2) for nb in row] for row in matrix]
